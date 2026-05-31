@@ -145,8 +145,8 @@ app.delete("/deleteExam/:name", (req, res) => {
 /* ========== GET EXAMS ========== */
 app.get("/exams", (req, res) => {
   db.query("SELECT * FROM exams", (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.send(result);
+    if (err) return res.status(500).json({ message: "Database error" });
+    res.json(result);
   });
 });
 

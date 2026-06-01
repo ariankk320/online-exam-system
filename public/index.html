@@ -1779,8 +1779,8 @@ async function login(){
     const data=await res.json();
 
     // Save logged in user & role
-   localStorage.setItem("currentUser", JSON.stringify(currentUser));
-   localStorage.setItem("currentRole", currentRole);
+   sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+   sessionStorage.setItem("currentRole", currentRole);
 
     if(!res.ok) return toast(data.message||"Invalid credentials");
 
@@ -2273,8 +2273,8 @@ function logout(){
   currentRole="student";
 
     // Clear login info from localStorage
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("currentRole");
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("currentRole");
 
   document.getElementById("appScreen").classList.add("hidden");
   document.getElementById("examScreen").classList.add("hidden");
@@ -2361,8 +2361,8 @@ window.addEventListener("DOMContentLoaded",()=>{
   document.getElementById("welcomeModal").classList.add("hidden");
 
   // Auto login after refresh
-  const savedUser = localStorage.getItem("currentUser");
-  const savedRole = localStorage.getItem("currentRole");
+  const savedUser = sessionStorage.getItem("currentUser");
+  const savedRole = sessionStorage.getItem("currentRole");
 
   if(savedUser && savedRole){
     currentUser = JSON.parse(savedUser);

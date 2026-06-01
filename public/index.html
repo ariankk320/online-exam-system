@@ -1750,8 +1750,8 @@ async function login(){
     const data=await res.json();
 
     // Save logged in user & role
-localStorage.setItem("currentUser", JSON.stringify(currentUser));
-localStorage.setItem("currentRole", currentRole);
+   localStorage.setItem("currentUser", JSON.stringify(currentUser));
+   localStorage.setItem("currentRole", currentRole);
 
     if(!res.ok) return toast(data.message||"Invalid credentials");
 
@@ -2246,7 +2246,7 @@ function logout(){
     // Clear login info from localStorage
   localStorage.removeItem("currentUser");
   localStorage.removeItem("currentRole");
-  
+
   document.getElementById("appScreen").classList.add("hidden");
   document.getElementById("examScreen").classList.add("hidden");
   document.getElementById("registerScreen").classList.add("hidden");
@@ -2344,9 +2344,12 @@ window.addEventListener("DOMContentLoaded",()=>{
     refreshAll();
   }
 
-  setTimeout(()=>{
-    document.getElementById("welcomeModal").classList.remove("hidden");
-  },250);
+   // Show welcome modal only if user not logged in
+  if(!savedUser || !savedRole){
+      setTimeout(()=>{
+          document.getElementById("welcomeModal").classList.remove("hidden");
+      },250);
+  }
 });
 </script>
 

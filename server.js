@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
+const db = mysql.createConnection(process.env.DB_URL);
 
 /* ========== MIDDLEWARE ========== */
 app.use(cors());
@@ -20,13 +21,11 @@ app.get("/", (req, res) => {
 });
 
 /* ========== MYSQL CONNECTION ========== */
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
-});
+// Old connection remove karo
+// const db = mysql.createConnection({...});
+
+// Replace with this single line:
+
 
 db.connect((err) => {
   if (err) {

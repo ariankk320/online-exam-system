@@ -905,6 +905,37 @@ label{
   margin-top:22px;
 }
 
+.project-description{
+  background:#eef4ff;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:25px;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+.contact-item{
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+.contact-item span{
+  font-size:28px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.contact-item h3{
+  margin-bottom:8px;
+  color:#2563eb;
+}
 .team-grid div{
   background:#f6f8fc;
   border:1px solid var(--border);
@@ -1567,29 +1598,40 @@ label{
     </section>
 
     <section id="contactPage" class="page">
-      <h1>Contact Information</h1>
-      <p class="muted">For project, student, or examination support.</p>
+  <h2>Contact Information</h2>
+  <p class="muted">For project, student, or examination support.</p>
 
-      <div class="contact-grid">
-        <div class="panel contact-card">
-          <span>📍</span>
-          <h3>Address</h3>
-          <p>DHA Suffa University, Karachi, Pakistan</p>
-        </div>
+  <!-- Project Description -->
+  <div class="project-description panel">
+    <p>
+      The <b>Online Examination Management System</b> is a database-driven web application developed as a <b>4th Semester Database Lab project</b> by students of DHA Suffa University.
+    </p>
+    <p>
+      This system allows secure online exams, question management, results tracking, and Excel report generation.
+    </p>
+  </div>
 
-        <div class="panel contact-card">
-          <span>✉️</span>
-          <h3>Email</h3>
-          <p>ariankukreja205@gmail.com</p>
-        </div>
+  <!-- Contact Info -->
+  <div class="contact-grid">
+    <div class="contact-item panel">
+      <span>📍</span>
+      <h3>Address</h3>
+      <p>DHA Suffa University, Karachi, Pakistan</p>
+    </div>
 
-        <div class="panel contact-card">
-          <span>📱</span>
-          <h3>Phone</h3>
-          <p>03338505608</p>
-        </div>
-      </div>
-    </section>
+    <div class="contact-item panel">
+      <span>📧</span>
+      <h3>Email</h3>
+      <p>ariankukreja205@gmail.com</p>
+    </div>
+
+    <div class="contact-item panel">
+      <span>📱</span>
+      <h3>Phone</h3>
+      <p>03338505608</p>
+    </div>
+  </div>
+</section>
   </section>
 </main>
 

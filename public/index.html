@@ -537,6 +537,7 @@ label{
   z-index:10;
 }
 
+/* Default hide menu button on desktop */
 .menu-btn{
   display:none;
   background:#eef4ff;
@@ -545,6 +546,45 @@ label{
   width:auto;
 }
 
+/* Mobile styles */
+@media(max-width:900px){
+  .menu-btn{
+    display:block !important;
+    position:fixed !important;
+    top:15px !important;
+    left:15px !important;
+    z-index:999999 !important;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+
+  .sidebar{
+    position:fixed !important;
+    top:112px !important;
+    left:0 !important;
+    bottom:0 !important;
+    width:260px !important;
+    z-index:99999 !important;
+    transform:translateX(-110%) !important;
+    transition:.3s ease !important;
+  }
+
+  .sidebar.show{
+    transform:translateX(0) !important;
+  }
+
+  body.sidebar-open{
+    overflow:hidden;
+  }
+}
+.sidebar{
+  z-index:99999;
+}
+
+.menu-btn{
+  z-index:999999;
+}
 .user-badge{
   display:flex;
   align-items:center;
@@ -1166,26 +1206,6 @@ label{
    .hidden{
    display:none !important;
   }
-    .sidebar{
-    position:fixed;
-    left:0;
-    top:112px;
-    bottom:0;
-    width:260px;
-    z-index:99999;
-    transform:translateX(-100%);
-    transition:.3s ease;
-  }
-
-  .sidebar.show{
-    transform:translateX(0);
-  }
-
-  .menu-btn{
-    display:block;
-    position:relative;
-    z-index:100000;
-  }
 
 }
 
@@ -1654,7 +1674,15 @@ function showLogin(){
 }
 
 function toggleSidebar(){
-  document.querySelector(".sidebar").classList.toggle("show");
+  const sidebar = document.querySelector(".sidebar");
+  sidebar.classList.toggle("show");
+
+  // Prevent background scroll when sidebar is open
+  if(sidebar.classList.contains("show")){
+    document.body.classList.add("sidebar-open");
+  } else {
+    document.body.classList.remove("sidebar-open");
+  }
 }
 
 function goHome(){
@@ -1705,6 +1733,7 @@ function openPage(pageId,el){
 
   // Mobile par page click ke baad sidebar close
   document.querySelector(".sidebar")?.classList.remove("show");
+  document.body.classList.remove("sidebar-open"); // Scroll restore
 }
 
 async function register(){

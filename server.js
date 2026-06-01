@@ -50,7 +50,7 @@ app.post("/register", (req, res) => {
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
-  if (email === "admin@gmail.com" && password === "admin123") {
+  if (email === "admin@gmail.com" && password === "220082") {
     return res.json({
       role: "admin",
       user: {

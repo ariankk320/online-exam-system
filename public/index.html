@@ -1749,6 +1749,10 @@ async function login(){
 
     const data=await res.json();
 
+    // Save logged in user & role
+localStorage.setItem("currentUser", JSON.stringify(currentUser));
+localStorage.setItem("currentRole", currentRole);
+
     if(!res.ok) return toast(data.message||"Invalid credentials");
 
     if(data.role==="admin"){
@@ -2239,6 +2243,10 @@ function logout(){
   currentUser=null;
   currentRole="student";
 
+    // Clear login info from localStorage
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("currentRole");
+  
   document.getElementById("appScreen").classList.add("hidden");
   document.getElementById("examScreen").classList.add("hidden");
   document.getElementById("registerScreen").classList.add("hidden");
@@ -2317,8 +2325,24 @@ function setupRegNoFormat(){
 }
 
 window.addEventListener("DOMContentLoaded",()=>{
+
   setupEnterKeyAccess();
   setupRegNoFormat();
+
+  // Auto login after refresh
+  const savedUser = localStorage.getItem("currentUser");
+  const savedRole = localStorage.getItem("currentRole");
+
+  if(savedUser && savedRole){
+    currentUser = JSON.parse(savedUser);
+    currentRole = savedRole;
+
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("registerScreen").classList.add("hidden");
+    document.getElementById("appScreen").classList.remove("hidden");
+
+    refreshAll();
+  }
 
   setTimeout(()=>{
     document.getElementById("welcomeModal").classList.remove("hidden");

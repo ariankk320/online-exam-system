@@ -1702,6 +1702,9 @@ function openPage(pageId,el){
 
   if(pageId==="examsPage") renderExams();
   if(pageId==="resultsPage") loadResults();
+
+  // Mobile par page click ke baad sidebar close
+  document.querySelector(".sidebar")?.classList.remove("show");
 }
 
 async function register(){

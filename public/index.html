@@ -1166,7 +1166,26 @@ label{
    .hidden{
    display:none !important;
   }
-  
+    .sidebar{
+    position:fixed;
+    left:0;
+    top:112px;
+    bottom:0;
+    width:260px;
+    z-index:99999;
+    transform:translateX(-100%);
+    transition:.3s ease;
+  }
+
+  .sidebar.show{
+    transform:translateX(0);
+  }
+
+  .menu-btn{
+    display:block;
+    position:relative;
+    z-index:100000;
+  }
 
 }
 

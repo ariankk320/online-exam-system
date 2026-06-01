@@ -2329,6 +2329,8 @@ window.addEventListener("DOMContentLoaded",()=>{
   setupEnterKeyAccess();
   setupRegNoFormat();
 
+  document.getElementById("welcomeModal").classList.add("hidden");
+
   // Auto login after refresh
   const savedUser = localStorage.getItem("currentUser");
   const savedRole = localStorage.getItem("currentRole");

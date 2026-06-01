@@ -549,26 +549,25 @@ label{
 /* Mobile styles */
 @media(max-width:900px){
   .menu-btn{
-    display:block !important;
-    position:fixed !important;
-    top:15px !important;
-    left:15px !important;
-    z-index:999999 !important;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-  }
+  display:block !important;
+  position:fixed !important;
+  top:10px !important;
+  left:10px !important;
+  z-index:1000000 !important;
+}
 
   .sidebar{
-    position:fixed !important;
-    top:112px !important;
-    left:0 !important;
-    bottom:0 !important;
-    width:260px !important;
-    z-index:99999 !important;
-    transform:translateX(-110%) !important;
-    transition:.3s ease !important;
-  }
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  width:260px !important;
+  height:100vh !important;
+  z-index:99999 !important;
+  transform:translateX(-110%) !important;
+  transition:.3s ease !important;
+  overflow-y:auto;
+  background:#fff;
+}
 
   .sidebar.show{
     transform:translateX(0) !important;

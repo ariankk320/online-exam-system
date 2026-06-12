@@ -86,6 +86,8 @@ app.post("/login", (req, res) => {
       if (result.length === 0) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
+       // ✅ Create session for student
+    req.session.student = result[0];
 
       res.json({
         role: "student",
@@ -94,6 +96,17 @@ app.post("/login", (req, res) => {
     }
   );
 });
+/* ========== CHECK SESSION ========== */
+app.get("/check-session", (req, res) => {
+    if(req.session && req.session.admin){
+        res.json({ loggedIn:true, role:"admin", user:req.session.admin });
+    } else if(req.session && req.session.student){
+        res.json({ loggedIn:true, role:"student", user:req.session.student });
+    } else {
+        res.json({ loggedIn:false });
+    }
+});
+
 /* ========== ADMIN MIDDLEWARE ========== */
 
 function isAdmin(req, res, next) {

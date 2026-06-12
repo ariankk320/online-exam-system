@@ -2395,34 +2395,60 @@ function setupRegNoFormat(){
   });
 }
 
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", async () => {
 
-  setupEnterKeyAccess();
-  setupRegNoFormat();
+    // Welcome modal hide by default
+    document.getElementById("welcomeModal").classList.add("hidden");
 
-  document.getElementById("welcomeModal").classList.add("hidden");
+    // Check server session
+    try {
+        const res = await fetch(API + "/check-session", {
+            method: "GET",
+            credentials: "include"   // important
+        });
+        const data = await res.json();
 
-  // Auto login after refresh
-  const savedUser = sessionStorage.getItem("currentUser");
-  const savedRole = sessionStorage.getItem("currentRole");
+        if(!data.loggedIn){
+            // not logged in → show login
+            document.getElementById("loginScreen").classList.remove("hidden");
+            document.getElementById("appScreen").classList.add("hidden");
+        } else {
+            currentRole = data.role;
+            currentUser = data.user;
 
-  if(savedUser && savedRole){
-    currentUser = JSON.parse(savedUser);
-    currentRole = savedRole;
+            document.getElementById("loginScreen").classList.add("hidden");
+            document.getElementById("registerScreen").classList.add("hidden");
+            document.getElementById("appScreen").classList.remove("hidden");
 
-    document.getElementById("loginScreen").classList.add("hidden");
-    document.getElementById("registerScreen").classList.add("hidden");
-    document.getElementById("appScreen").classList.remove("hidden");
+            // Show admin nav if role is admin
+            if(currentRole === "admin"){
+                document.getElementById("adminNav").classList.remove("hidden");
+                document.getElementById("topUserRole").innerText="Admin";
+                document.getElementById("excelBtn")?.classList.remove("hidden");
+            } else {
+                document.getElementById("adminNav").classList.add("hidden");
+                document.getElementById("topUserRole").innerText="Student";
+                document.getElementById("excelBtn")?.classList.add("hidden");
+            }
 
-    refreshAll();
-  }
+            document.getElementById("topUserName").innerText=currentUser.name||"Student";
+            document.getElementById("profileName").innerText=currentUser.name||"Student";
+            document.getElementById("profileEmail").innerText=currentUser.email||"";
+            document.getElementById("profileReg").innerText="Registration No: "+(currentUser.regNo||"");
 
-   // Show welcome modal only if user not logged in
-  if(!savedUser || !savedRole){
-      setTimeout(()=>{
-          document.getElementById("welcomeModal").classList.remove("hidden");
-      },250);
-  }
+            await refreshAll();
+
+            // Open the correct page depending on role
+            if(currentRole === "admin"){
+                openPage("adminPage", document.getElementById("adminNav"));
+            } else {
+                openPage("dashboardPage");
+            }
+        }
+    } catch(err){
+        toast("Server not connected");
+        document.getElementById("loginScreen").classList.remove("hidden");
+    }
 });
 </script>
 

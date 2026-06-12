@@ -2309,29 +2309,34 @@ async function submitExam(){
 }
 // Logout function to clear session and return to login screen
 function logout(){
+
+  // stop exam timer (IMPORTANT)
   clearInterval(examTimer);
 
-  currentUser=null;
-  currentRole="student";
+  currentUser = null;
+  currentRole = "student";
 
-    // Clear login info from localStorage
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("currentRole");
-
+  // hide screens
   document.getElementById("appScreen").classList.add("hidden");
   document.getElementById("examScreen").classList.add("hidden");
   document.getElementById("registerScreen").classList.add("hidden");
   document.getElementById("loginScreen").classList.remove("hidden");
 
-  // reset page to dashboard for next login
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active-page"));
+  // reset pages
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
   document.getElementById("dashboardPage").classList.add("active-page");
 
   // reset sidebar active link
-  document.querySelectorAll(".sidebar nav a").forEach(a=>a.classList.remove("active"));
+  document.querySelectorAll(".sidebar nav a").forEach(a => a.classList.remove("active"));
   document.querySelector(".sidebar nav a").classList.add("active");
 
   toast("Logged out successfully");
+
+  // destroy server session
+  fetch(API + "/admin/logout", {
+      method: "GET",
+      credentials: "include"
+  });
 }
 
 function goHome(){

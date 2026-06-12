@@ -1857,6 +1857,15 @@ async function login(){
     toast("Server not connected");
   }
 }
+  document.addEventListener("keydown", function(event) {
+    if(event.key === "Enter"){
+        const loginScreen = document.getElementById("loginScreen");
+
+        if(!loginScreen.classList.contains("hidden")){
+            login();
+        }
+    }
+});
 
 async function refreshAll(){
   await loadExams();

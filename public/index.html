@@ -1805,7 +1805,7 @@ async function register(){
 }
 
 async function login(){
-  
+
   const email=document.getElementById("loginEmail").value.trim();
   const password=document.getElementById("loginPassword").value.trim();
 
@@ -1820,28 +1820,27 @@ async function login(){
 
     const data=await res.json();
 
-    // Save logged in user & role
-   sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
-   sessionStorage.setItem("currentRole", currentRole);
-
     if(!res.ok) return toast(data.message||"Invalid credentials");
 
+    // ✅ FIRST set state
     if(data.role==="admin"){
       currentRole="admin";
       currentUser={name:"DSU Admin",email:"admin@gmail.com",regNo:"Admin"};
       document.getElementById("adminNav").classList.remove("hidden");
       document.getElementById("topUserRole").innerText="Admin";
-      // Show Excel download button for admin
       document.getElementById("excelBtn")?.classList.remove("hidden");
     }else{
       currentRole="student";
       currentUser=data.user;
       document.getElementById("adminNav").classList.add("hidden");
       document.getElementById("topUserRole").innerText="Student";
-      // Hide Excel download button for students
-    document.getElementById("excelBtn")?.classList.add("hidden");
+      document.getElementById("excelBtn")?.classList.add("hidden");
     }
 
+    // ❌ REMOVE sessionStorage completely (not needed)
+    // sessionStorage.setItem(...)
+
+    // UI update
     document.getElementById("topUserName").innerText=currentUser.name||"Student";
     document.getElementById("profileName").innerText=currentUser.name||"Student";
     document.getElementById("profileEmail").innerText=currentUser.email||"";
@@ -1853,12 +1852,14 @@ async function login(){
 
     await refreshAll();
     toast("Login successful");
+
   }catch(e){
     toast("Server not connected");
   }
 }
   document.addEventListener("keydown", function(event) {
     if(event.key === "Enter"){
+
         const loginScreen = document.getElementById("loginScreen");
 
         if(!loginScreen.classList.contains("hidden")){

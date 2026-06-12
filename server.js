@@ -15,6 +15,15 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// ================= ADMIN SESSION SETUP =================
+const session = require('express-session');
+app.use(session({
+    secret: process.env.SESSION_SECRET || "My$tr0ngS3cretKey!2026",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 24*60*60*1000 } // 1 day
+}));
+
 /* ========== FRONTEND ROUTE ========== */
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -51,6 +60,9 @@ app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   if (email === "admin@gmail.com" && password === "220082") {
+    // Create session
+    req.session.admin = { email: "admin@gmail.com", name: "DSU Admin" };
+
     return res.json({
       role: "admin",
       user: {
@@ -61,6 +73,7 @@ app.post("/login", (req, res) => {
     });
   }
 
+  // Student login as before
   db.query(
     "SELECT * FROM users WHERE email=? AND password=?",
     [email, password],
@@ -80,6 +93,28 @@ app.post("/login", (req, res) => {
       });
     }
   );
+});
+/* ========== ADMIN MIDDLEWARE ========== */
+
+function isAdmin(req, res, next) {
+  if (req.session && req.session.admin) {
+    next();
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+}
+/* ================= ADMIN DASHBOARD ================= */
+app.get("/admin/dashboard", isAdmin, (req, res) => {
+  res.render("dashboard", { admin: req.session.admin });
+});
+
+
+/* ================= ADMIN LOGOUT ================= */
+app.get("/admin/logout", (req,res)=>{
+    req.session.destroy(err=>{
+        if(err) return res.status(500).send("Error logging out");
+        res.redirect("/login");
+    });
 });
 /* ========== ADD EXAM ========== */
 app.post("/addExam", (req, res) => {

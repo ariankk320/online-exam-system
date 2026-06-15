@@ -55,14 +55,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-/* ========== WELCOME MODAL ========== */
-window.onload = function () {
-  document.getElementById("welcomeModal").style.display = "flex";
-};
-/* ================= CLOSE WELCOME MODAL ================= */
-function closeWelcome() {
-  document.getElementById("welcomeModal").style.display = "none";
-}
 
 /* ========== LOGIN ========== */
 app.post("/login", (req, res) => {
